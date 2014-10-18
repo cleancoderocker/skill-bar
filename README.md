@@ -1,6 +1,15 @@
 # &lt;skill-bar&gt;
 
-[Download as ZIP](https://github.com/cleancoderocker/skill-bar/archive/master.zip).
+## Install
+
+Install the component using [Bower](http://bower.io/):
+
+```sh
+$ bower install skill-bar --save
+```
+
+Or [download as ZIP](https://github.com/cleancoderocker/skill-bar/archive/master.zip).
+
 
 ## Usage
 
