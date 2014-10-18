@@ -1,0 +1,105 @@
+<template>
+    <style>
+        #skill-bar {
+            font-family: "Helvetica", helvetica, arial, sans-serif;
+            position:relative;
+            display:block;
+            margin-bottom:15px;
+            background:#eee;
+            height:30px;
+            width: 500px;
+        }
+
+        #skill-bar-title {
+            position:absolute;
+            top:0;
+            left:0;
+            width:140px;
+            font-weight:bold;
+            font-size:14px;
+            color:#ffffff;
+            background: #fa4c32;
+        }
+
+        #skill-bar-title span {
+            display:block;
+            background:rgba(0, 0, 0, 0.1);
+            padding:0 20px;
+            height:30px;
+            line-height:30px;
+        }
+
+        #skill-bar-bar {
+            height:30px;
+            width:0px;
+            background: #fa7d75;
+        }
+
+        #skill-bar-percent {
+            margin-left: 140px;
+            position:absolute;
+            right:10px;
+            top:0;
+            font-size:11px;
+            height:35px;
+            line-height:35px;
+            color:#ffffff;
+            color:#000000;
+        }
+    </style>
+    <div id="skill-bar">
+        <div id="skill-bar-title"><span></span></div>
+        <div id="skill-bar-bar"></div>
+        <div id="skill-bar-percent"></div>
+    </div>
+</template>
+
+<script>
+    (function(window, document, undefined) {
+        var thatDocument = document;
+        var thisDocument = document._currentScript.ownerDocument;
+        var template = thisDocument.querySelector('template').content;
+        var SkillBarPrototype = Object.create(HTMLElement.prototype);
+        SkillBarPrototype.skill = '';
+        SkillBarPrototype.percent = '0%';
+        SkillBarPrototype.createdCallback = function() {
+            var shadowRoot = this.createShadowRoot();
+            var clone = thatDocument.importNode(template, true);
+            shadowRoot.appendChild(clone);
+            this.skillBarTitle = shadowRoot.querySelector('#skill-bar-title span');
+            this.skillBar = shadowRoot.getElementById('skill-bar-bar');
+            this.skillBarPercent = shadowRoot.getElementById('skill-bar-percent');
+            if (this.hasAttribute('skill')) {
+                var skill = this.getAttribute('skill');
+                this.setSkill(skill);
+            } else {
+                this.setPercent(this.percentage);
+            }
+            if (this.hasAttribute('percent')) {
+                var percentage = this.getAttribute('percent');
+                this.setPercent(percentage);
+            } else {
+                this.setPercent(this.percentage);
+            }
+        };
+        SkillBarPrototype.attributeChangedCallback = function(attribute, oldValue, newValue) {
+            if (attribute === 'skill') {
+                this.setSkill(newValue);
+            } else if (attribute === 'percent') {
+                this.setPercent(newValue);
+            }
+        };
+        SkillBarPrototype.setSkill = function(value) {
+            this.skill = value;
+            this.skillBarTitle.textContent = this.skill;
+        };
+        SkillBarPrototype.setPercent = function(value) {
+            this.percent = value  + "%";
+            this.skillBar.style.width = this.percent;
+            this.skillBarPercent.textContent = this.percent;
+        };
+        window.skillBar = thatDocument.registerElement('skill-bar', {
+            prototype: SkillBarPrototype
+        });
+    })(window, document);
+</script>
