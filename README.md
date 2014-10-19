@@ -1,5 +1,7 @@
 # &lt;skill-bar&gt;
 
+![Example usages of skill-bar web component](images/examples.png "Example usages of skill-bar web component")
+
 ## Install
 
 Install the component using [Bower](http://bower.io/):
